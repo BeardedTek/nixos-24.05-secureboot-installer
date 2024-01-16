@@ -7,4 +7,4 @@ I could not find a Secure Boot Installer Image out there, so I did my best to fi
 Instructions are available on [My Blog - BeardedTek.org](https://beardedtek.org/my-nixos-journey-pt-4)
 
 ## Proof of Concept Image
-A proof of concept image is available in [This repo's releases](https://github.com/beardedtek/nixos-24.05-secureboot-installer/releases).
+A proof of concept image is available: https://github.com/BeardedTek/nixos-24.05-secureboot-installer/releases/tag/2024-01-15-001
