@@ -27,42 +27,22 @@ echo "ROOT PARTITION : ${DISK}${PART_MRKR}2"
 mkfs.fat -F 32 ${DISK}${PART_MRKR}1
 
 # /:
-mkfs.btrfs -f ${DISK}${PART_MRKR}2
+mkfs.ext4 -f ${DISK}${PART_MRKR}2
 
 
-ROOT_UUID=$(ls -l /dev/disk/by-uuid | grep $(echo $DISK | sed 's/\/dev\///')p2 | awk '{print $9}')
-BOOT_UUID=$(ls -l /dev/disk/by-uuid | grep $(echo $DISK | sed 's/\/dev\///')p1 | awk '{print $9}')
+BOOT_UUID=$(ls -l /dev/disk/by-uuid | grep $(echo $DISK | sed 's/\/dev\///')1 | awk '{print $9}')
+ROOT_UUID=$(ls -l /dev/disk/by-uuid | grep $(echo $DISK | sed 's/\/dev\///')2 | awk '{print $9}')
 
 echo "${BOOT_UUID}" > .boot_uuid
 echo "${ROOT_UUID}" > .root_uuid
 echo "BOOT_UUID : $BOOT_UUID"
 echo "ROOT_UUID : $ROOT_UUID"
-echo -n "Continue ? (Y/n): "
-read CONT
-
-CONT=$(echo "${CONT}" | tr '[:upper:]' '[:lower:]')
-if [[ ! "${CONT}" = "y" ]] || [[ ! "${CONT}" = "yes" ]] ||; then
-  echo "You must enter 'y' to contine."
-  echo "Exiting Installation."
-  exit
-fi
-
-# Create subvolumes
-mkdir -p /mnt
-mount "/dev/disk/by-uuid/${ROOT_UUID}" /mnt
-btrfs subvolume create /mnt/root
-btrfs subvolume create /mnt/home
-btrfs subvolume create /mnt/nix
-umount /mnt
 
 # Mount partitions
 # Mount /
-mount -o compress=zstd,subvol=root "/dev/disk/by-uuid/${ROOT_UUID}" /mnt
+mount "/dev/disk/by-uuid/${ROOT_UUID}" /mnt
 # Create mount points
-mkdir /mnt/{home,nix,boot}
-# Mount subvolumes
-mount -o compress=zstd,subvol=home "/dev/disk/by-uuid/${ROOT_UUID}" /mnt/home
-mount -o compress=zstd,subvol=nix "/dev/disk/by-uuid/${ROOT_UUID}" /mnt/nix
+mkdir -p /mnt/boot
 mount "/dev/disk/by-uuid/${BOOT_UUID}" /mnt/boot
 
 # Generate hardware-configuration.nix
@@ -83,7 +63,7 @@ echo -n "Generate Secure Boot Keys? (y/N)?: "
 read SEC_BOOT
 SEC_BOOT=$(echo "${SEC_BOOT}" | tr '[:upper:]' '[:lower:]')
 
-if [[ "${SEC_BOOT}" = "y" ]] || [[ "${SEC_BOOT}" = "yes" ; then
+if [[ "${SEC_BOOT}" = "y" ]] || [[ "${SEC_BOOT}" = "yes" ]]; then
   sbctl create-keys -d /mnt/etc/secureboot -e /mnt/etc/secureboot/keys
 else
   echo "Not Generating Secure Boot Keys!!!!!!!"
