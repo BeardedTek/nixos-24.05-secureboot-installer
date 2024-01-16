@@ -31,7 +31,7 @@ else
   echo "niv     - INSTALLED"
   echo "sbctl   - INSTALLED"
   echo "\$DISK   - OK"
-  echo -n "Continue with install?
+  echo -n "Continue with install?"
   CONTINUE="x"
   read CONTINUE
   CONTINUE=$(echo "${CONTINUE}" | tr '[:upper:]' '[:lower:]')
@@ -134,7 +134,7 @@ else
   echo "Please ensure you have secure boot keys located at /mnt/etc/secureboot before continuing or this WILL FAIL!!!"
   CONTINUE="x"
   while [ ! "${CONTINUE}" = "y"] || [{ ! "${CONTINUE}" = "yes" ]; do
-    echo -n "Continue? (Y/n)
+    echo -n "Continue? (Y/n)"
     read CONTINUE
     CONTINUE=$(echo "${CONTINUE}" | tr '[:upper:]' '[:lower:]')
   done
