@@ -20,14 +20,14 @@ echo "BOOT PARTITION : ${DISK}${PART_MRKR}1"
 echo "ROOT PARTITION : ${DISK}${PART_MRKR}2"
 
 # Partition the drive with 550M boot partition and the rest btrfs
-# printf "label: gpt\n,550M,U\n,,L\n" | sfdisk ${DISK}
+printf "label: gpt\n,550M,U\n,,L\n" | sfdisk ${DISK}
 
 # Format the partitions
 # /boot:
 mkfs.fat -F 32 ${DISK}${PART_MRKR}1
 
 # /:
-mkfs.ext4 -f ${DISK}${PART_MRKR}2
+mkfs.ext4 ${DISK}${PART_MRKR}2
 
 
 BOOT_UUID=$(ls -l /dev/disk/by-uuid | grep $(echo $DISK | sed 's/\/dev\///')1 | awk '{print $9}')
