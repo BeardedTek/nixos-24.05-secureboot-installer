@@ -28,6 +28,7 @@ or
 ```
 sudo ./install.sh
 ```
+[install.webm](https://github.com/BeardedTek/nixos-24.05-secureboot-installer/assets/93575915/69777484-1288-4b81-b33e-b602e057b906)
 
 ### Booting the Secure Boot install media
 You will need to register the Secure Boot keys in your UEFI firmware.
