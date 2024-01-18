@@ -15,7 +15,8 @@ git clone https://github.com/BeardedTek/nixos-24.05-secureboot-installer
 ```
 ls -l /dev/disk/by-id
 ```
-Copy either the device's short name: "/dev/sd*n*"
+Copy the device's short name
+Example: `/dev/sde`
 
 ### Run the installer
 You can set the target disk in a variable or enter it into the script.
